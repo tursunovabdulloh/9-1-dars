@@ -4,6 +4,6 @@ export default {
   theme: {
     extend: {},
   },
-  themes: ["light", "dark", "cupcake"],
+  themes: ["light", "synthwave", "cupcake"],
   plugins: [require("daisyui")],
 };
