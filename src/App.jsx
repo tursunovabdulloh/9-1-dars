@@ -1,15 +1,26 @@
-import Header from "./pages/Header";
-import Footer from "./pages/footer";
-import Hero from "./pages/hero";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./pages/Home";
+import Layout from "./Layout/layout";
+import Cart from "./pages/Cart";
 
 function App() {
-  return (
-    <>
-      <Header />
-      <Hero />
-      <Footer />
-    </>
-  );
+  const router = createBrowserRouter([
+    {
+      ypath: "/",
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: "/cart",
+          element: <Cart />,
+        },
+      ],
+    },
+  ]);
+  return <RouterProvider router={router} />;
 }
 
 export default App;

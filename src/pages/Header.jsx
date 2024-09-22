@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../assets/logo.svg";
 import { FaBagShopping } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { ToggleTheme } from "../store/ThemeSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const handleToggleTheme = () => {
     dispatch(ToggleTheme());
-    const newTheme = theme === "light" ? "synthwave" : "light";
-    document.documentElement.setAttribute("data-theme", newTheme);
   };
 
   return (
@@ -20,22 +24,25 @@ export default function Header() {
         <div className="flex items-center justify-between p-2">
           <div>
             <div className="dropdown">
-              <img src={logo} alt="logo" />
+              <a href="/" className="cursor-pointer">
+                <img src={logo} alt="logo" />
+              </a>
             </div>
           </div>
           <div className="flex items-center gap-x-4">
-            <label className="swap swap-rotate">
+            <label className="swap swap-indeterminate">
               <input
                 type="checkbox"
-                checked={theme === "synthwave"}
+                className="theme-controller"
                 onChange={handleToggleTheme}
+                checked={theme === "synthwave"}
               />
               {/* Sun Icon */}
               <svg
                 className={
-                  theme === "synthwave"
-                    ? "bg-base-300 rounded-lg shadow-md overflow-hidden cursor-pointer swap-off h-10 w-10 fill-current"
-                    : "bg-base-300 rounded-lg shadow-md overflow-hidden cursor-pointer swap-off h-10 w-10 fill-current"
+                  theme === "light"
+                    ? "rounded-lg shadow-md cursor-pointer swap-off h-10 w-10 fill-current"
+                    : "rounded-lg shadow-md cursor-pointer swap-off h-10 w-10 fill-current"
                 }
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -47,8 +54,8 @@ export default function Header() {
               <svg
                 className={
                   theme === "synthwave"
-                    ? "bg-base-300 rounded-lg shadow-md overflow-hidden cursor-pointer swap-on h-8.5 w-8.5 fill-current"
-                    : "bg-base-300 rounded-lg shadow-md overflow-hidden cursor-pointer swap-on h-8.5 w-8.5 fill-current"
+                    ? "rounded-lg shadow-md cursor-pointer swap-on h-8.5 w-8.5 fill-current"
+                    : "rounded-lg shadow-md cursor-pointer swap-on h-8.5 w-8.5 fill-current"
                 }
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -56,12 +63,15 @@ export default function Header() {
                 <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
               </svg>
             </label>
-            <button className="btn btn-ghost btn-circle">
-              <div className="indicator">
-                <FaBagShopping style={{ zoom: 2 }} />
+            <div className="indicator">
+              <button
+                className="btn btn-ghost btn-circle"
+                onClick={() => navigate("/cart")}
+              >
                 <span className="badge badge-xs badge-primary indicator-item"></span>
-              </div>
-            </button>
+                <FaBagShopping style={{ zoom: 2.2 }} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
